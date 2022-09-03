@@ -4,6 +4,7 @@ from tkinter import ttk
 from tkinter.font import ITALIC
 from bubblesort import bubble_sort
 from quicksort import quick_sort
+from mergesort import merge_sort
 
 root = Tk()
 root.title('Visualizer')
@@ -28,7 +29,7 @@ def drawData(data, colorArray):
         x1 = (i + 1) * x_width
         y1 = canvas_height
 
-        canvas.create_rectangle(x0, y0, x1, y1, fill = colorArray[i])
+        canvas.create_rectangle(x0, y0, x1, y1, fill=colorArray[i])
         canvas.create_text(x0 + 2, y0, anchor=SW, text=str(data[i]), font=("new roman", 15, "bold"),
                            fill="orange")
 
@@ -37,15 +38,18 @@ def drawData(data, colorArray):
 
 def StartAlgorithm():
     global data
-    if not data :
+    if not data:
         return
 
     if (algo_menu.get() == 'Quick Sort'):
         quick_sort(data, 0, len(data)-1, drawData, speedscale.get())
-        drawData(data, ['green' for x in range(len(data))])
-    
+
     elif (algo_menu.get() == 'Bubble Sort'):
         bubble_sort(data, drawData, speedscale.get())
+
+    elif (algo_menu.get() == 'Merge Sort'):
+        merge_sort(data, drawData, speedscale.get())
+    drawData(data, ['green' for x in range(len(data))])
 
 
 def Generate():
