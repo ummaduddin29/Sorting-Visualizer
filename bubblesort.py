@@ -6,5 +6,5 @@ def bubble_sort(data, drawData, timeTick):
             if data[j] > data[j+1]:
                 data[j], data[j+1] = data[j+1], data[j]
                 drawData(data, ['yellow' if x == j or x == j+1 else "red" for x in range(len(data))])
-                time.sleep(5 - timeTick)
+                time.sleep(timeTick)
     drawData(data, ['yellow' for x in range(len(data))])

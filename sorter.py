@@ -3,6 +3,7 @@ from tkinter import *
 from tkinter import ttk
 from tkinter.font import ITALIC
 from bubblesort import bubble_sort
+from quicksort import quick_sort
 
 root = Tk()
 root.title('Visualizer')
@@ -36,12 +37,19 @@ def drawData(data, colorArray):
 
 def StartAlgorithm():
     global data
-    bubble_sort(data, drawData, speedscale.get())
+    if not data :
+        return
+
+    if (algo_menu.get() == 'Quick Sort'):
+        quick_sort(data, 0, len(data)-1, drawData, speedscale.get())
+        drawData(data, ['green' for x in range(len(data))])
+    
+    elif (algo_menu.get() == 'Bubble Sort'):
+        bubble_sort(data, drawData, speedscale.get())
 
 
 def Generate():
     global data
-    print('Selected Algorithm: ' + selected_algorithm.get())
 
     minivalue = int(minvalue.get())
     maxivalue = int(maxvalue.get())
