@@ -2,6 +2,7 @@ import random
 from tkinter import *
 from tkinter import ttk
 from tkinter.font import ITALIC
+from bubblesort import bubble_sort
 
 root = Tk()
 root.title('Visualizer')
@@ -10,7 +11,7 @@ root.config(bg='#ffffff')
 root.resizable(False, False)
 
 
-def drawData(data):
+def drawData(data, colorArray):
     canvas.delete("all")
     canvas_height = 450
     canvas_width = 870
@@ -26,42 +27,30 @@ def drawData(data):
         x1 = (i + 1) * x_width
         y1 = canvas_height
 
-        canvas.create_rectangle(x0, y0, x1, y1, fill='red')
+        canvas.create_rectangle(x0, y0, x1, y1, fill = colorArray[i])
         canvas.create_text(x0 + 2, y0, anchor=SW, text=str(data[i]), font=("new roman", 15, "bold"),
                            fill="orange")
 
+    root.update_idletasks()
+
+
+def StartAlgorithm():
+    global data
+    bubble_sort(data, drawData, speedscale.get())
+
 
 def Generate():
+    global data
     print('Selected Algorithm: ' + selected_algorithm.get())
-    try:
-        minivalue = int(minvalue.get())
-    except:
-        minivalue = 1
 
-    try:
-        maxivalue = int(maxvalue.get())
-    except:
-        maxivalue = 100
-
-    try:
-        sizeevalue = int(sizevalue.get())
-    except:
-        sizeevalue = 10
-
-    if minivalue < 0:
-        minivalue = 0
-    if maxivalue > 100:
-        maxivalue = 100
-    if sizeevalue > 40 or sizeevalue < 3:
-        sizeevalue = 29
-
-    if minivalue > maxivalue:
-        minivalue, maxivalue = maxivalue, minivalue
+    minivalue = int(minvalue.get())
+    maxivalue = int(maxvalue.get())
+    sizeevalue = int(sizevalue.get())
 
     data = []
     for _ in range(sizeevalue):
         data.append(random.randrange(minivalue, maxivalue + 1))
-    drawData(data)
+    drawData(data, ['red' for x in range(len(data))])
 
 
 selected_algorithm = StringVar()
@@ -110,7 +99,7 @@ maxvalue.place(x=620, y=60)
 
 start = Button(root, text="Sort", bg="#66ff00", font=("arial", 12, "bold"),
                relief=SUNKEN, activebackground="#05945B", activeforeground="white",
-               bd=5, width=10)
+               bd=5, width=10, command=StartAlgorithm)
 start.place(x=750, y=0)
 
 speedlabel = Label(root, text="Speed : ", font=("new roman", 12, "bold"),
@@ -118,7 +107,7 @@ speedlabel = Label(root, text="Speed : ", font=("new roman", 12, "bold"),
 
 speedlabel.place(x=500, y=0)
 
-speedscale = Scale(root, from_=0.1, to=5.0, digits=2, resolution=0.2, orient=HORIZONTAL,
+speedscale = Scale(root, from_=0.2, to=5.0, digits=2, resolution=0.2, orient=HORIZONTAL,
                    font=("new roman", 14, "bold"), relief=GROOVE, bd=2, width=10)
 
 speedscale.place(x=620, y=0)
